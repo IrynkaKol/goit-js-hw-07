@@ -4,24 +4,30 @@ import { galleryItems } from './gallery-items.js';
 console.log(galleryItems);
  "Parent click handler. This alert will not appear when clicking on Descendant, the event will not reach here!"
 
- const list = document.querySelector('.gallery');
+ const galllery = document.querySelector('.gallery');
+ galllery.addEventListener('click', onClick);
 
+ function onClick(evt) {
+    if (evt.target.nodeName !== 'IMG') {
+        return;
+    }
+    console.log(evt.target)
+}
+ 
 const markup = galleryItems
 .map(item => 
-    `<ul>
-<li>
-<img class="picture" src=${item.preview} width = '200' alt='${item.description}'></img>
-</li>
-</ul>`)
+    `<div class = "gallery__item">
+<a class = "galllery__link" href = "${item.original}">
+<img class="gallery__image"
+src="${item.preview}"
+alt='${item.description}'>
+</img>
+</a>
+</div>
+`)
     .join('');
 
-    list.insertAdjacentHTML('beforeend', markup);
+galllery.insertAdjacentHTML('beforeend', markup);
 
 
-const pictures = document.querySelectorAll('.picture');
 
-list.style.display = 'flex';
-list.style.flexWrap = 'column-reverse';
-list.style.listStyle = 'none';
-list.style.gap = '20px';
-list.style.justifyContent = 'center';
