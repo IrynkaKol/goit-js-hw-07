@@ -32,9 +32,10 @@ function handleOpenMpdal(evt) {
    }
    
    
-
+//взяла із файла https://basiclightbox.electerious.com/
+// onShow: та onClose: взяла із Options  https://github.com/electerious/basicLightbox#readme
    const instance = basicLightbox.create(`
-    <img src="${evt.target.dataset.source}" width="800" height="600">
+    <img src="${evt.target.dataset.source}" width="800" height="600"> 
 `, {
     onShow: (instance) => {window.addEventListener('keydown', onCloseModal)},
 	onClose: (instance) => {window.removeEventListener('keydown', onCloseModal)}
