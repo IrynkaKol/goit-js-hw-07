@@ -6,25 +6,15 @@ console.log(galleryItems);
 
  const galllery = document.querySelector('.gallery');
 
- galllery.addEventListener('click', onClick);
 
- function onClick(evt) {
-    //evt.preventDefault();
-    if (evt.target.nodeName !== 'IMG') {
-        return;
-    }
-    console.log(evt.target)  // має відкриватись можальне вікно з картинкою
-}
-
- 
 const markup = galleryItems
-.map(item => 
+.map(({preview, original, description}) => 
     `<div class = "gallery__item">
-<a class = "galllery__link" href = "${item.original}">
+<a class = "galllery__link" href = "${original}">
 <img class="gallery__image"
-src="${item.preview}"
-data-source="${item.original}"
-alt='${item.description}'>
+src="${preview}"
+data-source="${original}"
+alt='${description}'>
 </img>
 </a>
 </div>
@@ -32,6 +22,31 @@ alt='${item.description}'>
     .join('');
 
 galllery.insertAdjacentHTML('beforeend', markup);
+
+galllery.addEventListener('click', handleOpenMpdal);
+
+function handleOpenMpdal(evt) {
+   evt.preventDefault();
+   if (evt.target.nodeName !== 'IMG') {
+       return; //щоб клікало лише по картинці  
+   }
+   
+   
+
+   const instance = basicLightbox.create(`
+    <img src="${evt.target.dataset.source}" width="800" height="600">
+`, {
+    onShow: (instance) => {window.addEventListener('keydown', onCloseModal)},
+	onClose: (instance) => {window.removeEventListener('keydown', onCloseModal)}
+});
+
+function onCloseModal(evt) {
+    if (evt.code === "Escape") {
+        instance.close();
+    }
+   }
+instance.show()
+}
 
 
 
